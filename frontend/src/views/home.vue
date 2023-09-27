@@ -5,7 +5,7 @@
     </div>
 </template>
 <script setup lan="ts">
-import MarkdownEditor from './components/MarkdownEditor.vue';
+import MarkdownEditor from './components/editor/MarkdownEditor.vue';
 import { ElButton } from 'element-plus'
 
 </script>
