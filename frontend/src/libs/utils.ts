@@ -28,11 +28,9 @@ export function transformStr(str: string | undefined) {
  * @returns 
  */
 export function ellipsis(value = '', len = 15) {
-    // 不能直接用value.length，中文字符会出现乱码
     if (!value) return '';
-    const strs = value.split('');
-    if (strs.length > len) {
-      return `${strs.slice(0, len).join('')}...`;
+    if (value.length > len) {
+      return `${value.slice(0, len)}...`;
     };
     return value;
 };
