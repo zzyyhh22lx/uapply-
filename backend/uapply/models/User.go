@@ -3,7 +3,7 @@ package models
 type UserLoginInfo struct {
 	ID       uint   `json:"id"`
 	Account  string `json:"account" binding:"required" gorm:"index:index_account,unique"`
-	Password string `json:"password"`
+	Password string `json:"password" binding:"required"`
 }
 
 type UserCV struct {
