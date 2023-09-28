@@ -17,6 +17,9 @@ type OrgaResponse struct {
 	OrgaID    uint   `json:"orga_id"`
 	Name      string `json:"name"`
 	Introduce string `json:"introduce"`
+	StartTime int64  `json:"start_time"`
+	EndTime   int64  `json:"end_time"`
+	MaxApply  int    `json:"max_apply"`
 	Token     string `json:"token"`
 }
 
@@ -85,6 +88,9 @@ func Login(c *gin.Context) {
 		OrgaID:    OrgaLoginInfoDb.ID,
 		Name:      OrgaLoginInfoDb.Name,
 		Introduce: OrgaLoginInfoDb.Introduce,
+		StartTime: OrgaLoginInfoDb.StartTime,
+		EndTime:   OrgaLoginInfoDb.EndTime,
+		MaxApply:  OrgaLoginInfoDb.MaxApply,
 		Token:     token,
 	}
 	response.Success(c, or)

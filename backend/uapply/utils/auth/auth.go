@@ -112,7 +112,7 @@ func JWTAuthDepa() func(c *gin.Context) {
 		}
 		// Save the currently requested message information to the requested context c
 		c.Set(DepaIDKey, mc.DepaID)
-		println("success")
+		c.Set(OrgaIDKey, mc.OrgaID)
 		// Subsequent handlers can use c.Get(UserIDKey) gets the borrower
 		c.Next()
 	}

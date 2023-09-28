@@ -33,6 +33,8 @@ func SetRouter() *gin.Engine {
 	SetDepaRouter(r)
 
 	// 面试官接口
+	SetInteRouter(r)
+
 	return r
 }
 
@@ -44,7 +46,11 @@ func SetUserRouter(r *gin.Engine) {
 
 	user := r.Group(userUrl)
 	user.Use(auth.JWTAuthUser())
+	user_no_token := r.Group(userUrl)
 	{
+		// 根据 token 获取用户 account
+		user.GET("get-account", user_ctr.GetAccount)
+
 		// 提交简历到 mysql
 		user.POST("save-cv/commit", user_ctr.CommitCv)
 
@@ -52,8 +58,12 @@ func SetUserRouter(r *gin.Engine) {
 		user.GET("get-cv/complete", user_ctr.GetCv)
 
 		// 获取所有组织和部门
+		user_no_token.GET("get-all", user_ctr.GetAllOrgaDepa)
 
-		// 通过组织 id 获取底下所有部门
+		// 通过组织 id 获取底下所有部门，用于报名的时候
+		user_no_token.GET("get-all-dep", user_ctr.GetAllDepaByOrga)
+
+		// 获取流程状态
 	}
 }
 
@@ -63,15 +73,21 @@ func SetOrgaRouter(r *gin.Engine) {
 	// 登录
 	r.POST(orgaUrl+"login", orga_ctr.Login)
 
-	depa := r.Group(orgaUrl)
-	depa.Use(auth.JWTAuthOrga())
+	orga := r.Group(orgaUrl)
+	orga.Use(auth.JWTAuthOrga())
 	{
 		// 部门注册
-		depa.POST("register-depa", orga_ctr.RegisterDepa)
+		orga.POST("register-depa", orga_ctr.RegisterDepa)
 
 		// 获取全部部门
+		orga.GET("get-all-depa", orga_ctr.GetAllDepa)
 
 		// 设置招新起止时间
+		orga.POST("set-time", orga_ctr.SetTime)
+
+		// 设置组织下最多能同时报名 n 个社团
+		orga.POST("set-max-apply", orga_ctr.SetMaxApply)
+
 	}
 }
 
@@ -83,6 +99,38 @@ func SetDepaRouter(r *gin.Engine) {
 	depa := r.Group(depaUrl)
 	depa.Use(auth.JWTAuthDepa())
 	{
+		// 添加面试官
+		depa.POST("add-inte", depa_ctr.AddInterviewer)
 
+		// 获取全部面试官
+		depa.GET("get-all-inte", depa_ctr.GetAllInterviewer)
+
+		// 获取组织和部门全部信息
+		depa.GET("get-org-dep", depa_ctr.GetOrgaDepa)
+
+		// 获取部门的全部候选人信息和状态
+
+	}
+}
+
+func SetInteRouter(r *gin.Engine) {
+	// 面试官由部门注册
+	// 登录
+	r.POST(inteUrl + "login")
+
+	inte := r.Group(inteUrl)
+	inte.Use(auth.JWTAuthInte())
+	{
+		// 获取部门和组织信息
+
+		// 获取面试官部门的全部候选人信息和状态
+
+		// 推进状态，进入下一轮面试
+
+		// 通过面试（是否发送短信）
+
+		// 淘汰（是否发送短信）
+
+		// 填写评价
 	}
 }
