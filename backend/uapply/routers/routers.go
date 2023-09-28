@@ -63,6 +63,8 @@ func SetUserRouter(r *gin.Engine) {
 		// 通过组织 id 获取底下所有部门，用于报名的时候
 		user_no_token.GET("get-all-dep", user_ctr.GetAllDepaByOrga)
 
+		// 报名
+
 		// 获取流程状态
 	}
 }
