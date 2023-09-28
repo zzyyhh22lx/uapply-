@@ -59,10 +59,10 @@
                
                 <div class="base-comp-button base-comp-button-type-primary base-comp-button-disabled" @click="loginIn">确认</div>
                 <div class="module-register-op-line">
-                    <div class="module-register-op-item"><span>{{ statement }}即代表我已阅读并同意协议</span></div>
+                    <div class="module-register-op-item"><span>{{ statement }}即代表我已同意协议</span></div>
                 </div>
                 <div class="module-footer">
-                    <div class="module-footer-item" data-spm-anchor-id="0.0.0.i1.75637435da9ArK" @click="toggleState">{{ statement }}账号</div>
+                    <div class="module-footer-item" data-spm-anchor-id="0.0.0.i1.75637435da9ArK" @click="toggleState">{{ state === LOGINSTATE ? '注册' : '登录' }}账号</div>
                 </div>
             </div>
             <div class="app-cpright-bar"><div class="app-cpright">© 2023.Powered by IST & 青协</div></div>
@@ -118,7 +118,7 @@ const loginIn = async () => {
     }
     // 将登录信息存于vuex全局状态管理中
     store.commit('setUsername', res.data.account);
-    setLocalStorage(TOKEN_NAME, res.data.token);
+    setLocalStorage(TOKEN_NAME, res.data.token as string);
     // 路由跳转
     router.push('/home');
 }

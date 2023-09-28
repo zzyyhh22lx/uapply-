@@ -44,7 +44,7 @@ router.beforeEach(async (to, from, next) => {
     return;
   }
   // 如果没有登录则跳转到登录界面
-  if(!store.state.account && to.name !== 'login') {
+  if(to.name !== 'login' && !store.state.account) {
     next({
       name: 'login',
     })
@@ -54,6 +54,12 @@ router.beforeEach(async (to, from, next) => {
   if(to.name === 'login' && !store.state.account){
     next();
     return;
+  }
+  // 如果已经登陆过则重定向到home
+  if(to.name === 'login' && store.state.account) {
+    next({
+      name: 'home',
+    })
   }
   next();
 });
