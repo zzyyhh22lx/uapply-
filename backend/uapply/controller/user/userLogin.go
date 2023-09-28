@@ -44,7 +44,16 @@ func Register(c *gin.Context) {
 		response.FailWithMsg(c, http.StatusServiceUnavailable, response.CodeSystemBusy, "Create CV error")
 		return
 	}
-	response.Success(c, loginInfo.Account)
+	token, err := jwt.GenToken(loginInfo.ID, jwt.User)
+	if err != nil {
+		response.FailWithMsg(c, http.StatusServiceUnavailable, response.CodeSystemBusy, "try again")
+		return
+	}
+	rsp := UserRsp{
+		Token:   token,
+		Account: loginInfo.Account,
+	}
+	response.Success(c, rsp)
 }
 
 func Login(c *gin.Context) {
