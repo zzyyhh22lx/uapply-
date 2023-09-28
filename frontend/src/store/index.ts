@@ -4,7 +4,7 @@ import { ADMIN, SUPERADMIN, COMMONUSER } from '../libs/constant';
 export const store = createStore({
     state () {
         return {
-            username: <string> "",
+            account: <string> "",
             roleType: <undefined | number> undefined
         }
       },
@@ -14,8 +14,8 @@ export const store = createStore({
         },
     },
     mutations: {
-        setUsername(state, username: string) {
-            state.username = username;
+        setUsername(state, account: string) {
+            state.account = account;
         },
         setRoleType(state, roleType: number) {
             state.roleType = roleType;

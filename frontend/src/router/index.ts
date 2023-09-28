@@ -44,14 +44,14 @@ router.beforeEach(async (to, from, next) => {
     return;
   }
   // 如果没有登录则跳转到登录界面
-  if(!store.state.username && to.name !== 'login') {
+  if(!store.state.account && to.name !== 'login') {
     next({
       name: 'login',
     })
     return;
   }
   // 如果是login&没有登录则自动放行
-  if(to.name === 'login' && !store.state.username){
+  if(to.name === 'login' && !store.state.account){
     next();
     return;
   }
