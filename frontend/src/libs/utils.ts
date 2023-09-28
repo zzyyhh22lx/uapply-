@@ -1,5 +1,4 @@
 // 工具函数
-
 const map: { [key: string]: string } = {
     '<' : '&lt;',
     '>' : '&gt;',
@@ -8,6 +7,15 @@ const map: { [key: string]: string } = {
     "'": '&#x27;',
     '"': '&quot;'
 };
+
+export function setLocalStorage(key: string, value: string) {
+    return localStorage.setItem(key, value);
+}
+
+export function getLocalStorage(key: string) {
+    return localStorage.getItem(key);
+}
+
 /**
  * 转义，将特殊字符转义成unicode编码
  * @param str 

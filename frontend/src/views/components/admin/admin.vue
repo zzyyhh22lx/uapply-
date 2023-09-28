@@ -1,5 +1,5 @@
 <template>
-    <div v-html="transformStr('<div>测试</div>')"></div>
+    <div v-html="transformStr('<div>测试</div>')" class="myButton"></div>
 </template>
 <script setup lan="ts">
 import { transformStr } from '@/libs/utils.ts';

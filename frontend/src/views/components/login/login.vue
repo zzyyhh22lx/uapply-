@@ -18,19 +18,12 @@ import { ref } from 'vue';
 import { useRouter } from 'vue-router';
 import { store } from '@/store/index';
 import { Login, Register } from '@/libs/request';
+import { setLocalStorage } from '@/libs/utils';
+import { TOKEN_NAME } from '@/libs/constant';
+import { LOGINSTATE, REGISTERSTATE } from './constant';
+import type FORM_TYPE from './constant';
 
-/**表单类型*/
-type FORM_TYPE = {
-    phoneNumber: String,
-    username: String,
-    password: String,
-}
 const router = useRouter();
-
-/**登录态*/
-const LOGINSTATE = false;
-/**注册态*/
-const REGISTERSTATE = true;
 
 /** 状态 --> 用于判断登录注册*/
 const state = ref(LOGINSTATE);
@@ -63,11 +56,11 @@ const loginIn = async () => {
         console.log('注册态');
         res = await Register(form.value);
     }
-    console.log(res);
     // 将登录信息存于vuex全局状态管理中
-    // store.commit('setUsername', form.value.username);
+    store.commit('setUsername', res.data.account);
+    setLocalStorage(TOKEN_NAME, res.data.token);
     // 路由跳转
-    // router.push('/home');
+    router.push('/home');
 }
 
 </script> 

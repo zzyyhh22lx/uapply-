@@ -18,7 +18,7 @@ const router = createRouter({
           path: "/home",
           name: "header",
           component: () => import("@/views/components/header/header"),
-        }
+        },
       ]
     },
     {
