@@ -7,7 +7,7 @@ type UserLoginInfo struct {
 }
 
 type UserCV struct {
-	UserID   uint   `json:"user_id"`
+	UserID   uint   `json:"user_id" gorm:"primary_key"`
 	Name     string `json:"name" binding:"required"`
 	Age      uint16 `json:"age" binding:"required"`
 	Sex      uint8  `json:"sex" binding:"required"`
@@ -21,7 +21,7 @@ type UserCV struct {
 
 type UserRegistration struct {
 	ID     uint `json:"id"`
-	UserID uint `json:"user_id" binding:"required" gorm:"index:index_user_id"`
+	UserID uint `json:"user_id" gorm:"index:index_user_id"`
 	OrgaID uint `json:"orga_id" binding:"required" gorm:"index:index_orga_id"`
 	DepaID uint `json:"depa_id" binding:"required" gorm:"index:index_depa_id"`
 	// step 0 表示面试未进行， 1 2 3 分别表示 1 轮 2 轮 3 轮

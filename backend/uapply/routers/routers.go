@@ -64,8 +64,10 @@ func SetUserRouter(r *gin.Engine) {
 		user_no_token.GET("get-all-dep", user_ctr.GetAllDepaByOrga)
 
 		// 报名
+		user.POST("registration", user_ctr.Registration)
 
 		// 获取流程状态
+		user.GET("registration", user_ctr.GetRegistration)
 	}
 }
 
@@ -90,6 +92,8 @@ func SetOrgaRouter(r *gin.Engine) {
 		// 设置组织下最多能同时报名 n 个社团
 		orga.POST("set-max-apply", orga_ctr.SetMaxApply)
 
+		// 获取组织全部部门的全部候选人信息和状态
+		orga.GET("get-reg-users", orga_ctr.GetRegUsers)
 	}
 }
 
@@ -111,7 +115,7 @@ func SetDepaRouter(r *gin.Engine) {
 		depa.GET("get-org-dep", depa_ctr.GetOrgaDepa)
 
 		// 获取部门的全部候选人信息和状态
-
+		depa.GET("get-reg-users", depa_ctr.GetRegUsers)
 	}
 }
 

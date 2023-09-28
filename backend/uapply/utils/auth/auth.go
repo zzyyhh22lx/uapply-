@@ -145,8 +145,10 @@ func JWTAuthInte() func(c *gin.Context) {
 			return
 		}
 		// Save the currently requested message information to the requested context c
-		c.Set(OrgaIDKey, mc.InteID)
-		println("success")
+		c.Set(InteIDKey, mc.InteID)
+		c.Set(DepaIDKey, mc.DepaID)
+		c.Set(OrgaIDKey, mc.OrgaID)
+		println("success ", mc.OrgaID, " ", mc.DepaID)
 		// Subsequent handlers can use c.Get(UserIDKey) gets the borrower
 		c.Next()
 	}

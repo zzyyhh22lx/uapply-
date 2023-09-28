@@ -45,7 +45,23 @@ type DepaClaims struct {
 
 type InteClaims struct {
 	InteID uint `json:"inte_id"`
+	OrgaID uint `json:"orga_id"`
+	DepaID uint `json:"depa_id"`
 	jwt.StandardClaims
+}
+
+func GenTokenDepa(InteID uint, DepaID uint, OrgaID uint) (string, error) {
+	var c Claim
+	c.Io = InteClaims{
+		DepaID: DepaID,
+		OrgaID: OrgaID,
+		StandardClaims: jwt.StandardClaims{
+			ExpiresAt: time.Now().Add(TokenExpireDuration).Unix(), // 过期时间
+			Issuer:    "uapply",                                   // 签发人
+		},
+	}
+	token := jwt.NewWithClaims(jwt.SigningMethodHS256, c.Io)
+	return token.SignedString(mySercet)
 }
 
 func GenTokneDepa(DepaID uint, OrgaID uint) (string, error) {

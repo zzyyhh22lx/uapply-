@@ -127,9 +127,5 @@ func RegisterDepa(c *gin.Context) {
 		response.FailWithMsg(c, http.StatusServiceUnavailable, response.CodeSystemBusy, "database insert error")
 		return
 	}
-	err = dao.GetDb().Create(models.UserCV{UserID: loginInfo.ID, IsInit: 1}).Error
-	if err != nil {
-		response.FailWithMsg(c, http.StatusServiceUnavailable, response.CodeSystemBusy, "Create Dep error")
-	}
 	response.Success(c, nil)
 }
