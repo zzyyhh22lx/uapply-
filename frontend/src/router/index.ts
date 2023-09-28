@@ -12,13 +12,24 @@ const router = createRouter({
     {
       path: "/home",
       name: "home",
+      redirect: "/home/uapply",
       component: () => import("@/views/home.vue"),
       children: [
         {
-          path: "/home",
-          name: "header",
-          component: () => import("@/views/components/header/header"),
+          path: "/home/uapply",
+          name: "uapply",
+          component: () => import("@/views/components/admin/admin.vue"),
         },
+        {
+          path: "/home/view-cv",
+          name: "view-cv",
+          component: () => import("@/views/components/admin/admin.vue"),
+        },
+        {
+          path: "/home/view-pc",
+          name: "view-pc",
+          component: () => import("@/views/components/admin/admin.vue"),
+        }
       ]
     },
     {
