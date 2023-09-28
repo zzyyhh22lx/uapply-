@@ -1,5 +1,13 @@
 import { store } from '@/store/index';
 
+type LOGIN_RES = {
+  code: number,
+  data: {
+    account: string,
+    token: string
+  }
+};
+
 const UAPPLY_URL = 'http://localhost:8888/uapply';
 
 async function sendRequest(path: string,data: Record<string, any>,header: Record<string, any>= {}) {
@@ -29,7 +37,7 @@ async function sendRequest(path: string,data: Record<string, any>,header: Record
 export async function Register(data: {
     account: string,
     password: string
-}): Promise<{}> {
+}): Promise<LOGIN_RES> {
   return fetch(`${UAPPLY_URL}/user/register`, {
     method: "post",
     body: JSON.stringify(data)
@@ -48,7 +56,7 @@ export async function Register(data: {
 export async function Login(data: {
     account: string,
     password: string
-}): Promise<{}> {
+}): Promise<LOGIN_RES> {
   return fetch(`${UAPPLY_URL}/user/login`, {
     method: "post",
     body: JSON.stringify(data)
