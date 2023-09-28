@@ -13,14 +13,20 @@
   "dependencies": {
     "@tailwindcss/typography": "^0.5.10",
     "@vitejs/plugin-vue": "^4.3.4",
+    "@vitejs/plugin-vue-jsx": "^3.0.2",
     "element-plus": "^2.3.14",
     "sass": "^1.68.0",
     "tailwindcss": "^3.3.3",
     "typescript": "^5.2.2",
     "url": "^0.11.3",
     "vite": "^4.4.9",
+    "vite-plugin-svg-icons": "^2.0.1",
     "vue": "^3.3.4",
     "vue-router": "^4.2.5",
     "vuex": "^4.1.0"
+  },
+  "devDependencies": {
+    "unplugin-auto-import": "^0.16.6",
+    "unplugin-vue-components": "^0.25.2"
   }
 }
