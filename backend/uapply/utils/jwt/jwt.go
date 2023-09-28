@@ -9,6 +9,9 @@ import (
 
 var (
 	User uint8 = 1
+	Orga uint8 = 2
+	Depa uint8 = 3
+	Inte uint8 = 4
 )
 
 // TokenExpireDuration Expiration time 7 days
@@ -18,11 +21,29 @@ const TokenExpireDuration = time.Hour * 24 * 7
 var mySercet = []byte("bms")
 
 type Claim struct {
-	Bo UserClaims
+	Uo UserClaims
+	Oo OrgaClaims
+	Do DepaClaims
+	Io InteClaims
 }
 
 type UserClaims struct {
 	UserID uint `json:"user_id"`
+	jwt.StandardClaims
+}
+
+type OrgaClaims struct {
+	OrgaID uint `json:"orga_id"`
+	jwt.StandardClaims
+}
+
+type DepaClaims struct {
+	DepaID uint `json:"depa_id"`
+	jwt.StandardClaims
+}
+
+type InteClaims struct {
+	InteID uint `json:"inte_id"`
 	jwt.StandardClaims
 }
 
@@ -34,8 +55,38 @@ func GenToken(ID uint, typ uint8) (string, error) {
 	switch typ {
 	case User:
 		{
-			c.Bo = UserClaims{
+			c.Uo = UserClaims{
 				UserID: ID,
+				StandardClaims: jwt.StandardClaims{
+					ExpiresAt: time.Now().Add(TokenExpireDuration).Unix(), // 过期时间
+					Issuer:    "uapply",                                   // 签发人
+				},
+			}
+		}
+	case Orga:
+		{
+			c.Oo = OrgaClaims{
+				OrgaID: ID,
+				StandardClaims: jwt.StandardClaims{
+					ExpiresAt: time.Now().Add(TokenExpireDuration).Unix(), // 过期时间
+					Issuer:    "uapply",                                   // 签发人
+				},
+			}
+		}
+	case Depa:
+		{
+			c.Do = DepaClaims{
+				DepaID: ID,
+				StandardClaims: jwt.StandardClaims{
+					ExpiresAt: time.Now().Add(TokenExpireDuration).Unix(), // 过期时间
+					Issuer:    "uapply",                                   // 签发人
+				},
+			}
+		}
+	case Inte:
+		{
+			c.Io = InteClaims{
+				InteID: ID,
 				StandardClaims: jwt.StandardClaims{
 					ExpiresAt: time.Now().Add(TokenExpireDuration).Unix(), // 过期时间
 					Issuer:    "uapply",                                   // 签发人
@@ -47,7 +98,13 @@ func GenToken(ID uint, typ uint8) (string, error) {
 	var token *jwt.Token
 	switch typ {
 	case User:
-		token = jwt.NewWithClaims(jwt.SigningMethodHS256, c.Bo)
+		token = jwt.NewWithClaims(jwt.SigningMethodHS256, c.Uo)
+	case Orga:
+		token = jwt.NewWithClaims(jwt.SigningMethodHS256, c.Oo)
+	case Depa:
+		token = jwt.NewWithClaims(jwt.SigningMethodHS256, c.Do)
+	case Inte:
+		token = jwt.NewWithClaims(jwt.SigningMethodHS256, c.Io)
 	}
 	// Use the specified seek signature and get the fully encoded token
 	return token.SignedString(mySercet)
@@ -56,6 +113,51 @@ func GenToken(ID uint, typ uint8) (string, error) {
 func ParseTokenUser(tokenString string) (*UserClaims, error) {
 	// parse token
 	var mc = new(UserClaims)
+	token, err := jwt.ParseWithClaims(tokenString, mc, func(token *jwt.Token) (i interface{}, err error) {
+		return mySercet, nil
+	})
+	if err != nil {
+		return nil, err
+	}
+	if token.Valid {
+		return mc, nil
+	}
+	return nil, errors.New("invalid token")
+}
+
+func ParseTokenOrga(tokenString string) (*OrgaClaims, error) {
+	// parse token
+	var mc = new(OrgaClaims)
+	token, err := jwt.ParseWithClaims(tokenString, mc, func(token *jwt.Token) (i interface{}, err error) {
+		return mySercet, nil
+	})
+	if err != nil {
+		return nil, err
+	}
+	if token.Valid {
+		return mc, nil
+	}
+	return nil, errors.New("invalid token")
+}
+
+func ParseTokenDepa(tokenString string) (*DepaClaims, error) {
+	// parse token
+	var mc = new(DepaClaims)
+	token, err := jwt.ParseWithClaims(tokenString, mc, func(token *jwt.Token) (i interface{}, err error) {
+		return mySercet, nil
+	})
+	if err != nil {
+		return nil, err
+	}
+	if token.Valid {
+		return mc, nil
+	}
+	return nil, errors.New("invalid token")
+}
+
+func ParseTokenInte(tokenString string) (*InteClaims, error) {
+	// parse token
+	var mc = new(InteClaims)
 	token, err := jwt.ParseWithClaims(tokenString, mc, func(token *jwt.Token) (i interface{}, err error) {
 		return mySercet, nil
 	})

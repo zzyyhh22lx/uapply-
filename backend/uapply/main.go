@@ -20,6 +20,8 @@ func main() {
 
 	dao.GetDb().AutoMigrate(&models.UserLoginInfo{})
 	dao.GetDb().AutoMigrate(&models.UserCV{})
+	dao.GetDb().AutoMigrate(&models.OrgaLoginInfo{})
+	dao.GetDb().AutoMigrate(&models.DepaLoginInfo{})
 
 	// 日志配置
 	err := logger.Init("dev")
