@@ -7,24 +7,29 @@ const router = createRouter({
     {
       path: "/",
       name: "",
-      redirect: "/home",
+      redirect: "/home"
+    },
+    {
+      path: "/home",
+      name: "home",
+      component: () => import("@/views/home.vue"),
       children: [
         {
-          path: "home",
-          name: "home",
-          component: () => import("@/views/home.vue"),
+          path: "/home",
+          name: "header",
+          component: () => import("@/views/components/header/header"),
         }
       ]
     },
     {
       path: "/login",
       name: "login",
-      component: () => import("@/views/login.vue"),
+      component: () => import("@/views/components/login/login.vue"),
     },
     {
       path: "/denied",
       name: "denied",
-      component: () => import("@/views/denied.vue"),
+      component: () => import("@/views/components/denied/denied"),
     }
   ],
 });

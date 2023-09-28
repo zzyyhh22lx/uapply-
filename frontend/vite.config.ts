@@ -1,12 +1,14 @@
-import { defineConfig } from 'vite'
-import path from 'path'
-import { fileURLToPath } from "url"
-import { createSvgIconsPlugin } from 'vite-plugin-svg-icons'
-import vue from '@vitejs/plugin-vue'
+import { defineConfig } from 'vite';
+import path from 'path';
+import { fileURLToPath } from "url";
+import { createSvgIconsPlugin } from 'vite-plugin-svg-icons';
+import vueJsx from "@vitejs/plugin-vue-jsx";
+import vue from '@vitejs/plugin-vue';
 
 export default defineConfig({
     plugins:[
-      vue(),,
+      vue(),
+      vueJsx(),
       createSvgIconsPlugin({
         // 指定需要缓存的图标文件夹
         iconDirs: [path.resolve(process.cwd(), 'src/assets/img/icons')],

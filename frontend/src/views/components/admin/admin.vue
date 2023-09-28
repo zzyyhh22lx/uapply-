@@ -1,6 +1,5 @@
 <template>
     <div v-html="transformStr('<div>测试</div>')"></div>
-    <button class="myButton">按钮</button>
 </template>
 <script setup lan="ts">
 import { transformStr } from '@/libs/utils.ts';

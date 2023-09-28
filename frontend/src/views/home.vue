@@ -1,11 +1,11 @@
 <template>
-    <div>
-        <markdown-editor />
+    <div class="apply-home">
+        <router-view></router-view>
+        <apply-admin />
         <el-button>按钮2</el-button>
     </div>
 </template>
 <script setup lan="ts">
-import MarkdownEditor from './components/editor/MarkdownEditor.vue';
-import { ElButton } from 'element-plus'
-
+import ApplyAdmin from './components/admin/admin.vue';
+import { ElButton } from 'element-plus';
 </script>
