@@ -8,6 +8,7 @@ type OrgaLoginInfo struct {
 	Introduce string `json:"introduce"`
 	StartTime int64  `json:"start_time"`
 	EndTime   int64  `json:"end_time"`
+	MaxApply  int    `json:"max_apply"` // 最多一个人报名组织下的几个社团
 }
 
 type DepaLoginInfo struct {

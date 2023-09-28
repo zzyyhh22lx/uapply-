@@ -6,11 +6,17 @@ import (
 	"strings"
 	"uapply/dao"
 	"uapply/models"
+	"uapply/utils/auth"
 	"uapply/utils/jwt"
 	"uapply/utils/response"
 
 	"github.com/gin-gonic/gin"
 )
+
+type UserRsp struct {
+	Token   string `json:"token"`
+	Account string `json:"account"`
+}
 
 func Register(c *gin.Context) {
 	// 绑定前端数据
@@ -36,8 +42,9 @@ func Register(c *gin.Context) {
 	err = dao.GetDb().Create(models.UserCV{UserID: loginInfo.ID, IsInit: 1}).Error
 	if err != nil {
 		response.FailWithMsg(c, http.StatusServiceUnavailable, response.CodeSystemBusy, "Create CV error")
+		return
 	}
-	response.Success(c, nil)
+	response.Success(c, loginInfo.Account)
 }
 
 func Login(c *gin.Context) {
@@ -72,5 +79,27 @@ func Login(c *gin.Context) {
 		response.FailWithMsg(c, http.StatusServiceUnavailable, response.CodeSystemBusy, "try again")
 		return
 	}
-	response.Success(c, token)
+	rsp := UserRsp{
+		Token:   token,
+		Account: UserLoginInfoDb.Account,
+	}
+	response.Success(c, rsp)
+}
+
+func GetAccount(c *gin.Context) {
+	idAny, exist := c.Get(auth.UserIDKey)
+	id := idAny.(uint)
+	if !exist {
+		response.Fail(c, http.StatusUnauthorized, response.CodeTokenInvalid)
+		return
+	}
+	var login models.UserLoginInfo
+
+	err := dao.GetDb().Where("id=?", id).First(&login).Error
+	if err != nil {
+		log.Println(err)
+		response.FailWithMsg(c, http.StatusBadRequest, response.CodeParamsInvalid, "database get cv error")
+		return
+	}
+	response.Success(c, login)
 }

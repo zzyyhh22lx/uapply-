@@ -38,6 +38,7 @@ type OrgaClaims struct {
 }
 
 type DepaClaims struct {
+	OrgaID uint `json:"orga_id"`
 	DepaID uint `json:"depa_id"`
 	jwt.StandardClaims
 }
@@ -45,6 +46,20 @@ type DepaClaims struct {
 type InteClaims struct {
 	InteID uint `json:"inte_id"`
 	jwt.StandardClaims
+}
+
+func GenTokneDepa(DepaID uint, OrgaID uint) (string, error) {
+	var c Claim
+	c.Do = DepaClaims{
+		DepaID: DepaID,
+		OrgaID: OrgaID,
+		StandardClaims: jwt.StandardClaims{
+			ExpiresAt: time.Now().Add(TokenExpireDuration).Unix(), // 过期时间
+			Issuer:    "uapply",                                   // 签发人
+		},
+	}
+	token := jwt.NewWithClaims(jwt.SigningMethodHS256, c.Do)
+	return token.SignedString(mySercet)
 }
 
 // GenToken Build Web JWT
@@ -73,16 +88,6 @@ func GenToken(ID uint, typ uint8) (string, error) {
 				},
 			}
 		}
-	case Depa:
-		{
-			c.Do = DepaClaims{
-				DepaID: ID,
-				StandardClaims: jwt.StandardClaims{
-					ExpiresAt: time.Now().Add(TokenExpireDuration).Unix(), // 过期时间
-					Issuer:    "uapply",                                   // 签发人
-				},
-			}
-		}
 	case Inte:
 		{
 			c.Io = InteClaims{
@@ -101,8 +106,6 @@ func GenToken(ID uint, typ uint8) (string, error) {
 		token = jwt.NewWithClaims(jwt.SigningMethodHS256, c.Uo)
 	case Orga:
 		token = jwt.NewWithClaims(jwt.SigningMethodHS256, c.Oo)
-	case Depa:
-		token = jwt.NewWithClaims(jwt.SigningMethodHS256, c.Do)
 	case Inte:
 		token = jwt.NewWithClaims(jwt.SigningMethodHS256, c.Io)
 	}
