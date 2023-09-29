@@ -4,14 +4,17 @@
         <div class="userhome" ref="userhome">
             <router-view></router-view>
         </div>
-        <el-backtop />
         <div class="app-cpright-bar"><div class="app-cpright">© 2023.Powered by IST & 青协</div></div>
+        <el-backtop :right="64" :bottom="100" />
+        <div style="background-color: transparent; height: 40px;"></div>
     </div>
 </template>
 <script setup lang="ts">
 import UapplyHeader from './components/header/index.vue';
 import { ElBacktop } from 'element-plus';
 import { getCurrentInstance, ref, onMounted, onBeforeUnmount } from 'vue';
+import { store } from '@/store/index';
+
 const vm = getCurrentInstance();
 const userhome = ref();
 vm?.proxy?.$event.on('clickCheckBtn', (isShow: boolean) => {
@@ -31,17 +34,32 @@ const handleScroll = () => {
     }
     lastScrollTop = scrollTop;
 }
+
+const resizeShow = () => {
+  const currentWidth = window.innerWidth;
+  // 显示
+  if(currentWidth > 750) {
+    vm?.proxy?.$event.emit('clickCheckBtn', false);
+  } else {
+    vm?.proxy?.$event.emit('clickCheckBtn', store.state.isShow);
+  }
+}
+
 onMounted(() => {
     window.addEventListener("scroll", handleScroll);
+    window.addEventListener("resize", resizeShow);
 })
 onBeforeUnmount(() => {
     window.removeEventListener("scroll", handleScroll);
+    window.removeEventListener("resize", resizeShow);
 })
 </script>
 <style scoped lang="scss">
 .apply-home {
     @apply bg-[#f5f5f5];
     padding-bottom: 70px;
+    width: 100%;
+    overflow-x: hidden;
 }
 .userhome { 
     @apply mt-16;
@@ -51,7 +69,7 @@ onBeforeUnmount(() => {
     position: relative;
     width: 480px;
     height: 60px;
-    bottom: 0;
+    bottom: -100px;
     left: 50%;
     margin-left: -240px;
     line-height: 60px;

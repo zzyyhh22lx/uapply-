@@ -5,7 +5,7 @@
       </div>
       <div class="nav-text">
         <input type="checkbox" id="check" />
-        <label for="check" class="checkbtn" id="uapply-checkbtn" ref="uapplyCheckbtn" @click="goClickCheckBtn">
+        <label for="check" class="checkbtn" id="uapply-checkbtn" ref="uapplyCheckbtn">
           <i class="fa fa-bars"></i>
         </label>
         <ul class="nav-titles">
@@ -26,7 +26,7 @@
 </template>
 
 <script lang="ts">
-import { defineComponent, ref, onMounted, onBeforeUnmount } from "vue";
+import { getCurrentInstance, defineComponent, ref, onMounted, onBeforeUnmount } from "vue";
 import { useRouter, useRoute } from "vue-router";
 import { store } from "@/store/index";
 
@@ -36,12 +36,8 @@ export default defineComponent({
   setup() {
     const router = useRouter();
     const route = useRoute();
+    const vm = getCurrentInstance();
 
-    const goClickCheckBtn = () => {
-      const isShow = !store.state.isShow;
-      store.commit("setShowType", isShow);
-      store.$event.emit("clickCheckBtn", isShow);
-    };
     const navTitles = [
       {
         name: "recommand",
@@ -70,9 +66,15 @@ export default defineComponent({
     const header = ref<HTMLElement | null>(null);
     const setActive = (index: number, name: string) => {
       activeIndex.value = index;
+      document.getElementById('uapply-checkbtn')?.click();
       router.push({
         name,
       });
+    };
+    const goClickCheckBtn = () => {
+      const isShow = !store.state.isShow;
+      store.commit("setShowType", isShow);
+      vm?.proxy?.$event.emit("clickCheckBtn", isShow);
     };
     const handleClick = () => {
       const currentWidth = window.innerWidth;
