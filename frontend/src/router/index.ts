@@ -16,6 +16,11 @@ const router = createRouter({
       component: () => import("@/views/home.vue"),
       children: [
         {
+          path: "/home/recommand",
+          name: "recommand",
+          component: () => import("@/views/components/admin/admin.vue"),
+        },
+        {
           path: "/home/uapply",
           name: "uapply",
           component: () => import("@/views/components/admin/admin.vue"),
@@ -23,7 +28,7 @@ const router = createRouter({
         {
           path: "/home/view-cv",
           name: "view-cv",
-          component: () => import("@/views/components/admin/admin.vue"),
+          component: () => import("@/views/components/cv/index.vue"),
         },
         {
           path: "/home/view-pc",

@@ -7,7 +7,7 @@ export type LOGIN_RES = {
   data: {
     account: string,
     token?: string,
-    id?: string
+    id?: number
   }
 };
 
@@ -79,7 +79,20 @@ export async function Login(data: {
 export async function getAccount(): Promise<LOGIN_RES | Boolean> {
   const bearerToken = getLocalStorage(TOKEN_NAME);
   // 无缓存则返回false
-  if(!bearerToken) return Promise.resolve(false);
+  if(!bearerToken) {
+    // 如果是测试环境
+    if(window.location.hostname === 'localhost') {
+      return Promise.resolve({
+        "code": 1000,
+        "data": {
+          "account": "222",
+          "id": 6,
+        },
+        "msg": "Success"
+      });
+    }
+    return Promise.resolve(false)
+  };
   return fetch(`${UAPPLY_URL}/user/get-account`, {
     headers: {
       "Authorization": `Bearer ${bearerToken}`,

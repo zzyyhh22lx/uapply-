@@ -92,7 +92,7 @@
 #check{
 	display: none;
 }
-@media (max-width: 858px) {
+@media (max-width: 750px) {
 	.checkbtn{
 		display: block;
 	}
@@ -140,3 +140,10 @@
     }
 }
 
+.disabled {
+  cursor: not-allowed!important;
+  opacity: 0.5;
+}
+.disabled:hover {
+	border: none;
+}

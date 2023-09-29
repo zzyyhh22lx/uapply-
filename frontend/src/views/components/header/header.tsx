@@ -1,5 +1,5 @@
-import { defineComponent, ref } from "vue";
-import { useRouter } from 'vue-router';
+import { defineComponent, ref, onMounted } from "vue";
+import { useRouter, useRoute } from 'vue-router';
 import { store } from '@/store/index';
 
 import "./index.scss";
@@ -8,19 +8,30 @@ export default defineComponent({
   name: "ApplyHeader",
   setup() {
     const router = useRouter();
-    const navTitles = [{
-      name: 'uapply',
-      label: "招新报名"
-    }, {
-      name: "view-cv",
-      label: "我的简历"
-    }, 
-    {
-      name: "view-pc",
-      label: "流程查看",
-    }];
-    const activeIndex = ref(0);
-    const checkbtn = ref();
+    const route = useRoute();
+    const navTitles = [
+      {
+        name: "recommand",
+        label: "为你推荐",
+        index: 0,
+        disabled: true
+      },
+      {
+        name: 'uapply',
+        label: "招新报名",
+        index: 1,
+      },
+      {
+        name: "view-cv",
+        label: "我的简历",
+        index: 2,
+      }, 
+      {
+        name: "view-pc",
+        label: "流程查看",
+        index: 3,
+      }];
+    const activeIndex = ref(1);
     const setActive = (index: number, name: string) => {
       activeIndex.value = index;
       // 触发点击label事件
@@ -29,7 +40,9 @@ export default defineComponent({
         name
       })
     };
-
+    onMounted(() => {
+      activeIndex.value = navTitles.find((item, index) => item.name === route.name)?.index as number;
+    });
     return () => (
       <div>
         <nav id="top">
@@ -44,8 +57,11 @@ export default defineComponent({
             <ul class="nav-titles">
               {navTitles.map((obj, index) => (
                 <li
-                  class={`nav-title ${activeIndex.value === index ? "active" : ""}`}
-                  onClick={() => setActive(index, obj.name)}
+                  class={`nav-title ${activeIndex.value === index ? "active" : ""} ${
+                    obj.disabled ? "disabled" : ""
+                  }`}
+                  onClick={() => !obj.disabled && setActive(index, obj.name)}
+                  title={`${obj.disabled ? "该功能尚未开放, 敬请期待": ""}`}
                 >
                   {obj.label}
                 </li>
