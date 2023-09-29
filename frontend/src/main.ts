@@ -5,6 +5,7 @@ import { createApp } from "vue";
 import { getAccount } from '@/libs/request';
 import type { LOGIN_RES } from '@/libs/request';
 import { store } from "@/store/index";
+import { EventEmitter } from "@/libs/eventbus";
 
 import './assets/apply.scss';
 import "./assets/tailwind.css";
@@ -12,6 +13,9 @@ import 'element-plus/dist/index.css'
 import 'virtual:svg-icons-register';
 
 const app = createApp(App);
+// 事件总线
+const eventBus = new EventEmitter();
+app.config.globalProperties.$event = eventBus;
 
 /**
  * 根据是否返回account判断是否已登录

@@ -147,3 +147,8 @@
 .disabled:hover {
 	border: none;
 }
+
+#top {
+	z-index: 9999;
+	transition: all .6s;
+}
