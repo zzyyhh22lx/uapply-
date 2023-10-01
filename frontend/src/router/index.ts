@@ -12,13 +12,29 @@ const router = createRouter({
     {
       path: "/home",
       name: "home",
+      redirect: "/home/uapply",
       component: () => import("@/views/home.vue"),
       children: [
         {
-          path: "/home",
-          name: "header",
-          component: () => import("@/views/components/header/header"),
+          path: "/home/recommand",
+          name: "recommand",
+          component: () => import("@/views/components/admin/admin.vue"),
         },
+        {
+          path: "/home/uapply",
+          name: "uapply",
+          component: () => import("@/views/components/admin/admin.vue"),
+        },
+        {
+          path: "/home/view-cv",
+          name: "view-cv",
+          component: () => import("@/views/components/cv/index.vue"),
+        },
+        {
+          path: "/home/view-pc",
+          name: "view-pc",
+          component: () => import("@/views/components/admin/admin.vue"),
+        }
       ]
     },
     {
@@ -44,7 +60,7 @@ router.beforeEach(async (to, from, next) => {
     return;
   }
   // 如果没有登录则跳转到登录界面
-  if(!store.state.account && to.name !== 'login') {
+  if(to.name !== 'login' && !store.state.account) {
     next({
       name: 'login',
     })
@@ -54,6 +70,12 @@ router.beforeEach(async (to, from, next) => {
   if(to.name === 'login' && !store.state.account){
     next();
     return;
+  }
+  // 如果已经登陆过则重定向到home
+  if(to.name === 'login' && store.state.account) {
+    next({
+      name: 'home',
+    })
   }
   next();
 });

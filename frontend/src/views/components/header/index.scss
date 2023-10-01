@@ -1,0 +1,155 @@
+*{
+	padding: 0;
+	margin: 0;
+}
+#top{
+	background-color: #fff;
+	height: 70px;
+	position: fixed;
+	width: 100%;
+    box-shadow: 0 4px 14px 0 rgba(126, 134, 142, 0.16);
+}
+.logo img{
+	width: 100%;
+	border-radius: 100px;
+    @apply p-2 pt-3;
+    box-shadow: 0 4px 14px 0 rgba(126, 134, 142, 0.16);
+}
+.logo {
+	background-color: #fff;
+	position: absolute;
+	width: 80px;
+	border-radius: 50%;
+	transition: transform 0.5s linear;
+}
+.logo:hover {
+	animation: rotate 0.5s linear infinite;
+}
+@keyframes rotate {
+	0% {
+	  transform: rotate(0deg);
+	}
+	100% {
+	  transform: rotate(360deg);
+	}
+}
+
+.nav-text{
+	width: fit-content;
+	margin: auto;
+}
+.nav-title{
+	display: inline-block;
+	height: 60px;
+	text-align: center;
+	line-height: 70px;
+	width: 100px;
+	color: rgba(0, 0, 0, 0.8);
+	vertical-align: top;
+	@apply mr-4;
+}
+.active {
+	border-bottom: 3px solid #2c3e50;
+}
+.nav-substitle{
+	background-color: #353535;
+	border-radius: 5px;
+	line-height: 50px;
+	width: 200px;
+	display: none;
+	opacity: 0.8;
+}
+.nav-substitle a{
+	display: block;
+	border: 3px solid transparent;
+}
+.nav-substitle a:hover{
+	border: 3px solid white;
+	transition-duration: 0.3s;
+	border-radius: 5px;
+	opacity: 1;
+}
+.nav-title:hover{
+	cursor: pointer;
+	border-bottom: 3px solid #2c3e50;
+	transition-duration: .6s;
+}
+.nav-link:hover ~ .nav-substitle{
+	display: block;
+}
+.nav-substitle:hover{
+	display: block;
+}
+.checkbtn{
+	font-size: 30px;
+	color: #2c3e50;
+	float: right;
+	line-height: 70px;
+	margin-right: 40px;
+	cursor: pointer;
+	display: none;
+}
+#check{
+	display: none;
+}
+@media (max-width: 750px) {
+	.checkbtn{
+		display: block;
+	}
+	.logo{
+		width: 60px;
+	}
+	ul{
+		position: fixed;
+		width: 100%;
+		height: 100%;
+		background: rgba(187, 187, 190);
+		top: 70px;
+		left: -100%;
+		text-align: center;
+		transition: all 0.5s;
+	}
+	nav ul li{
+		display: block;
+		line-height: 20px;
+	}
+	.nav-title{
+		width: 100%;
+	    color: white;
+	}
+	nav ul li a{
+		font-size: 20px;
+	}
+	.nav-substitle{
+		width: 100%;
+		position: relative;
+		top: -5px;
+	}
+	#check:checked ~ ul{
+		left: 0;
+	}
+	.nav-text{
+		width: 100%;
+	}
+    .nav-title:hover{
+        background: #2c3e50;
+        color: #fff;
+    }
+    .active {
+        border: none;
+    }
+}
+
+.disabled {
+  cursor: not-allowed!important;
+  opacity: 0.5;
+}
+.disabled:hover {
+	border: none;
+	background-color: transparent;
+}
+
+#top {
+	z-index: 9999;
+	transition: all .6s;
+}

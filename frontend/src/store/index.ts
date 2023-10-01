@@ -5,7 +5,8 @@ export const store = createStore({
     state () {
         return {
             account: <string> "",
-            roleType: <undefined | number> undefined
+            roleType: <undefined | number> undefined,
+            isShow: false, // 侧边栏是否显示
         }
       },
     getters: {
@@ -19,6 +20,9 @@ export const store = createStore({
         },
         setRoleType(state, roleType: number) {
             state.roleType = roleType;
+        },
+        setShowType(state, isShow: boolean) {
+            state.isShow = isShow;
         }
     },
     actions: {

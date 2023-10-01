@@ -10,6 +10,7 @@
                     <div class="module-register-input-box base-comp-mobile-box base-comp-input-box">
                         <div class="base-comp-mobile-box-input myinput">
                             <input
+                                class="bg-[#f2f2f6]"
                                 autocorrect="off"
                                 autocapitalize="off"
                                 autocomplete="off"
@@ -22,6 +23,7 @@
                     <div class="module-register-input-box base-comp-mobile-box base-comp-input-box mybox">
                         <div class="base-comp-mobile-box-input myinput">
                             <input
+                                class="bg-[#f2f2f6]"
                                 autocorrect="off"
                                 autocapitalize="off"
                                 autocomplete="off"
@@ -44,10 +46,12 @@
                         </select>
                         <div class="base-comp-mobile-box-input">
                             <input
+                                class="bg-[#f2f2f6]"
                                 type="tel"
                                 autocorrect="off"
                                 autocapitalize="off"
                                 autocomplete="off"
+                                autofocus
                                 maxlength="12"
                                 placeholder="请输入手机号"
                                 v-model="form.phoneNumber"
@@ -59,10 +63,10 @@
                
                 <div class="base-comp-button base-comp-button-type-primary base-comp-button-disabled" @click="loginIn">确认</div>
                 <div class="module-register-op-line">
-                    <div class="module-register-op-item"><span>{{ statement }}即代表我已阅读并同意协议</span></div>
+                    <div class="module-register-op-item"><span>{{ statement }}即代表我已同意协议</span></div>
                 </div>
                 <div class="module-footer">
-                    <div class="module-footer-item" data-spm-anchor-id="0.0.0.i1.75637435da9ArK" @click="toggleState">{{ statement }}账号</div>
+                    <div class="module-footer-item" data-spm-anchor-id="0.0.0.i1.75637435da9ArK" @click="toggleState">{{ state === LOGINSTATE ? '注册' : '登录' }}账号</div>
                 </div>
             </div>
             <div class="app-cpright-bar"><div class="app-cpright">© 2023.Powered by IST & 青协</div></div>
@@ -72,6 +76,7 @@
 <script setup lang="ts">
 import { ref, computed } from 'vue';
 import { useRouter } from 'vue-router';
+import { ElMessage } from 'element-plus';
 import { store } from '@/store/index';
 import { Login, Register } from '@/libs/request';
 import { setLocalStorage } from '@/libs/utils';
@@ -109,23 +114,40 @@ const toggleState = () => {
 /**登录*/
 const loginIn = async () => {
     let res;
-    if(state.value === LOGINSTATE) {
-        console.log('登录态');
-        res = await Login({ ...form.value });
-    } else {
-        console.log('注册态');
-        res = await Register({ ...form.value });
+    try {
+        if(state.value === LOGINSTATE) {
+            console.log('登录态');
+            res = await Login({ ...form.value });
+        } else {
+            console.log('注册态');
+            res = await Register({ ...form.value });
+        }
+        // 将登录信息存于vuex全局状态管理中
+        store.commit('setUsername', res.data.account);
+        setLocalStorage(TOKEN_NAME, res.data.token as string);
+        ElMessage.success(`${statement.value}成功`);
+        // 路由跳转
+        router.push('/home');
+    } catch(e: any) {
+        ElMessage.error(`${statement.value}失败 -- ${e.msg ? e.msg : e}`);
     }
-    // 将登录信息存于vuex全局状态管理中
-    store.commit('setUsername', res.data.account);
-    setLocalStorage(TOKEN_NAME, res.data.token);
-    // 路由跳转
-    router.push('/home');
 }
 
 </script> 
 
 <style scoped lang="scss">
 @import './index.scss';
-
+.base-comp-mobile-box-select-value {
+    position: relative;
+}
+.base-comp-mobile-box-select-value::after {
+  content: "";
+  position: absolute;
+  top: 50%;
+  right: 5px; /* 根据需要调整右侧距离 */
+  width: 1px;
+  height: 16px;
+  background-color: rgba(126, 134, 142, 0.16);
+  transform: translateY(-50%);
+}
 </style>
