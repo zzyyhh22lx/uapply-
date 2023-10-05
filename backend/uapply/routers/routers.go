@@ -138,9 +138,12 @@ func SetInteRouter(r *gin.Engine) {
 		inte.POST("step", inte_ctr.UserStep)
 
 		// 通过面试（是否发送短信）
+		inte.POST("pass", inte_ctr.Pass)
 
 		// 淘汰（是否发送短信）
+		inte.POST("out", inte_ctr.Out)
 
 		// 填写评价
+		inte.POST("score", inte_ctr.Score)
 	}
 }
