@@ -27,6 +27,17 @@ func Registration(c *gin.Context) {
 		return
 	}
 	re.UserID = id
+	// 检查是否提交简历了
+	var cv models.UserCV
+	err = dao.GetDb().Where("user_id=?", re.UserID).First(&cv).Error
+	if err != nil {
+		response.FailWithMsg(c, http.StatusBadRequest, response.CodeParamsInvalid, "database get user CV error")
+		return
+	}
+	if cv.IsInit == 1 {
+		response.FailWithMsg(c, http.StatusBadRequest, response.CodeParamsInvalid, "请先提交简历再进行报名")
+		return
+	}
 	// 检查社团是否存在
 	var depa models.DepaLoginInfo
 	err = dao.GetDb().Where("id=?", re.DepaID).First(&depa).Error
