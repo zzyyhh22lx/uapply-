@@ -11,14 +11,11 @@
 <script setup lang="ts">
 import { ElSelect, ElOption } from "element-plus";
 import { PropType } from 'vue';
-type OPTIONS_TYPE = {
-    value: number | string,
-    label: string,
-    disabled: true,
-};
+import type { OPTIONS_TYPE } from '../constant';
+
 const props = defineProps({
     options: {
-        type: Object as PropType<OPTIONS_TYPE>,
+        type: Object as PropType<OPTIONS_TYPE[]>,
         required: true,
     }
 })

@@ -8,7 +8,7 @@
         <div class="info_item">
           <div class="title bold">具体信息</div>
           <div class="list">
-            <template v-for="(field, index) in fields" :key="index">
+            <template v-for="field in fields" :key="index">
               <div class="item item_half">
                 <div class="label">{{ field.label }}</div>
                 <div v-if="!status" class="text">{{ formatFieldValue(field) }}</div>
@@ -17,7 +17,7 @@
                   :is="field.component"
                   v-model="form[field.model]"
                   :placeholder="field.placeholder"
-                  :options="options"
+                  :options="field.options"
                 />
               </div>
             </template>
@@ -48,6 +48,8 @@ import { ElInput } from "element-plus";
 import { options } from "./constant";
 import type { CV_TYPE } from "@/libs/request";
 import MySelect from './select/MySelect.vue';
+import type { OPTIONS_TYPE } from './constant';
+import { ElMessage } from 'element-plus';
 
 const form = ref<CV_TYPE>({
   user_id: undefined,
@@ -69,15 +71,16 @@ type Field = {
   model: keyof CV_TYPE;
   component: any;
   placeholder: string;
+  options?: OPTIONS_TYPE[];
 };
 const fields: Field[] = [
   { label: "姓名", model: "name", component: ElInput, placeholder: "Please input" },
-  { label: "性别", model: "sex", component: MySelect, placeholder: "Select" },
+  { label: "性别", model: "sex", component: MySelect, placeholder: "Select", options: options },
   { label: "年龄", model: "age", component: ElInput, placeholder: "Please input" },
   { label: "手机号", model: "phone", component: ElInput, placeholder: "Please input" },
   { label: "邮箱", model: "email", component: ElInput, placeholder: "Please input" },
-  { label: "感兴趣的方向", model: "interest", component: MySelect, placeholder: "Select" },
-  { label: "专业", model: "major", component: MySelect, placeholder: "Select" },
+  { label: "感兴趣的方向", model: "interest", component: MySelect, placeholder: "Select", options: options },
+  { label: "专业", model: "major", component: MySelect, placeholder: "Select", options: options },
   { label: "微信", model: "wc", component: ElInput, placeholder: "Select" },
   { label: "QQ", model: "qq", component: ElInput, placeholder: "Select" },
 ];
@@ -89,9 +92,15 @@ const edit = () => {
 const cancel = () => {
   status.value = false;
 };
-const save = () => {
+const save = async () => {
   // 保存逻辑
   console.log(form.value);
+  try {
+    await commitUserCV(form.value);
+    ElMessage.success('上传成功');
+  } catch(e) {
+    console.log(e);
+  }
 };
 
 const formatFieldValue = (field: Field) => {
@@ -125,9 +134,13 @@ const handleScroll = () => {
     }
 }
 onMounted(async () => {
-    const data = await getUserCV();
-    form.value = data.data;
-    miniform.value = form.value;
+    try {
+      const data = await getUserCV();
+      form.value = data.data;
+      miniform.value = form.value;
+    } catch(e) {
+      console.log(e);
+    }
     handleScroll();
     window.addEventListener("scroll", handleScroll);
 })

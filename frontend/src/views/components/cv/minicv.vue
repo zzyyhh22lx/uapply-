@@ -114,6 +114,7 @@ onMounted(() => {
     updateZoom();
     // 监听窗口大小变化并更新缩放比例
     window.addEventListener("resize", updateZoom);
+    // 计算简历完善比例
     let i = 0, j = 0;
     Object.keys(props.form).forEach((item: string) => {
         const key = item as keyof CV_TYPE;

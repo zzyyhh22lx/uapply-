@@ -134,5 +134,8 @@ export async function getUserCV(): Promise<{
  * @returns 
  */
 export async function commitUserCV(cv: CV_TYPE) {
-  return sendRequest(`${UAPPLY_URL}/user/save-cv/commit`, 'POST', cv);
+  return sendRequest(`${UAPPLY_URL}/user/save-cv/commit`, 'POST', cv).then(async (res) => {
+    const resultResponse = await res.json()
+    return resultResponse;
+  });
 }
