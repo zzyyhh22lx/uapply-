@@ -1,6 +1,7 @@
 import App from "./App.vue";
 import router from "./router";
 import SvgIcon from '@/components/SvgIcon.vue';
+import TopTitle from '@/components/TopTitle.vue';
 import { createApp } from "vue";
 import { getAccount } from '@/libs/request';
 import type { LOGIN_RES } from '@/libs/request';
@@ -27,21 +28,19 @@ for (const [key, component] of Object.entries(ElementPlusIconsVue)) {
 const eventBus = new EventEmitter();
 app.config.globalProperties.$event = eventBus;
 
-
-
-
-/**
- * 根据是否返回account判断是否已登录
- */
-getAccount().then((res) => {
-    if(typeof res !== 'boolean' && (res as LOGIN_RES).data?.account) {
-        store.commit('setUsername', (res as LOGIN_RES).data.account);
-    }
-    app.use(router).use(store).component('svg-icon', SvgIcon);
+const InHome = () => {
+    app.use(router).use(store).component('svg-icon', SvgIcon).component('top-title', TopTitle);
     router.isReady().then(() => app.mount("#app"));
-})
-
-
-
-
-
+}
+(async () => {
+   try {
+        const res = await getAccount();
+        if(typeof res !== 'boolean' && (res as LOGIN_RES).data?.account) {
+            store.commit('setUsername', (res as LOGIN_RES).data.account);
+        }
+        InHome();
+   } catch (e) {
+        console.log(e, e.msg);
+        InHome();
+   }
+})()
