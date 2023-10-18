@@ -23,7 +23,7 @@ const router = createRouter({
         {
           path: "/home/uapply",
           name: "uapply",
-          component: () => import("@/views/components/admin/admin.vue"),
+          component: () => import("@/views/components/post/post.vue"),
         },
         {
           path: "/home/view-cv",
