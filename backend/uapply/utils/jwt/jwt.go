@@ -50,7 +50,7 @@ type InteClaims struct {
 	jwt.StandardClaims
 }
 
-func GenTokenDepa(InteID uint, DepaID uint, OrgaID uint) (string, error) {
+func GenTokenInte(InteID uint, DepaID uint, OrgaID uint) (string, error) {
 	var c Claim
 	c.Io = InteClaims{
 		DepaID: DepaID,

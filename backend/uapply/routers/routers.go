@@ -2,6 +2,7 @@ package routers
 
 import (
 	depa_ctr "uapply/controller/department"
+	inte_ctr "uapply/controller/interviewer"
 	orga_ctr "uapply/controller/organization"
 	user_ctr "uapply/controller/user"
 	"uapply/utils/auth"
@@ -122,21 +123,27 @@ func SetDepaRouter(r *gin.Engine) {
 func SetInteRouter(r *gin.Engine) {
 	// 面试官由部门注册
 	// 登录
-	r.POST(inteUrl + "login")
+	r.POST(inteUrl+"login", inte_ctr.Login)
 
 	inte := r.Group(inteUrl)
 	inte.Use(auth.JWTAuthInte())
 	{
 		// 获取部门和组织信息
+		inte.GET("get-orga-depa", inte_ctr.GetOrgaDepa)
 
 		// 获取面试官部门的全部候选人信息和状态
+		inte.GET("get-all-user", inte_ctr.GetAllUser)
 
 		// 推进状态，进入下一轮面试
+		inte.POST("step", inte_ctr.UserStep)
 
 		// 通过面试（是否发送短信）
+		inte.POST("pass", inte_ctr.Pass)
 
 		// 淘汰（是否发送短信）
+		inte.POST("out", inte_ctr.Out)
 
 		// 填写评价
+		inte.POST("score", inte_ctr.Score)
 	}
 }
