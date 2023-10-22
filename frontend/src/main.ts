@@ -34,7 +34,7 @@ const InHome = () => {
         }
         InHome();
    } catch (e) {
-        console.log(e, e.msg);
+        console.log(e);
         InHome();
    }
 })()

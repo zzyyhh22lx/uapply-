@@ -25,7 +25,7 @@ export interface CV_TYPE {
   "wc": string | undefined,
 }
 
-const UAPPLY_URL = 'http://localhost:8888/uapply';
+const UAPPLY_URL = 'http://xdu.uapply.cloud:8888/uapply';
 
 async function sendRequest(path: string, method: ('POST' | 'GET'), data?: Record<string, any>) {
   const bearerToken = getLocalStorage(TOKEN_NAME);
@@ -90,18 +90,18 @@ export async function getAccount(): Promise<LOGIN_RES | Boolean> {
   // 无缓存则返回false
   if(!bearerToken) {
     // 如果是测试环境
-    if(window.location.hostname === 'localhost') {
-      setLocalStorage(TOKEN_NAME, "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyX2lkIjo2LCJleHAiOjE2OTY3NTI3NTcsImlzcyI6InVhcHBseSJ9.Q9k5tMus-YjODbvq0ljlUZyUwMB37lEP_sJbspLKIB0")
-      setLocalStorage(ID_NAME, '6');
-      return Promise.resolve({
-        "code": 1000,
-        "data": {
-          "account": "222",
-          "id": 6,
-        },
-        "msg": "Success"
-      });
-    }
+    // if(window.location.hostname === 'localhost') {
+    //   setLocalStorage(TOKEN_NAME, "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyX2lkIjo2LCJleHAiOjE2OTY3NTI3NTcsImlzcyI6InVhcHBseSJ9.Q9k5tMus-YjODbvq0ljlUZyUwMB37lEP_sJbspLKIB0")
+    //   setLocalStorage(ID_NAME, '6');
+    //   return Promise.resolve({
+    //     "code": 1000,
+    //     "data": {
+    //       "account": "222",
+    //       "id": 6,
+    //     },
+    //     "msg": "Success"
+    //   });
+    // }
     return Promise.resolve(false)
   };
   return fetch(`${UAPPLY_URL}/user/get-account`, {
