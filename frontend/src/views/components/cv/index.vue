@@ -8,7 +8,7 @@
         <div class="info_item">
           <div class="title bold">具体信息</div>
           <div class="list">
-            <template v-for="field in fields" :key="index">
+            <template v-for="field in fields">
               <div class="item item_half">
                 <div class="label">{{ field.label }}</div>
                 <div v-if="!status" class="text">{{ formatFieldValue(field) }}</div>
@@ -42,7 +42,7 @@
 
 <script setup lang="ts">
 import MiniCv from "./minicv.vue";
-import { onMounted, onBeforeUnmount, ref, computed } from "vue";
+import { onMounted, onBeforeUnmount, ref, computed, reactive } from "vue";
 import { getUserCV, commitUserCV } from "@/libs/request";
 import { ElInput } from "element-plus";
 import { options } from "./constant";
@@ -51,20 +51,32 @@ import MySelect from './select/MySelect.vue';
 import type { OPTIONS_TYPE } from './constant';
 import { ElMessage } from 'element-plus';
 
-const form = ref<CV_TYPE>({
-  user_id: undefined,
+const form = reactive<CV_TYPE>({
+  user_id: -1,
   name: "",
-  age: undefined,
-  sex: undefined,
-  major: undefined,
-  interest: undefined,
-  phone: undefined,
-  email: undefined,
-  init: undefined,
-  qq: undefined,
-  wc: undefined,
+  age: -1,
+  sex: -1,
+  major: '',
+  interest: '',
+  phone: '',
+  email: '',
+  init: 0,
+  qq: '',
+  wc: ''
 });
-const miniform = ref<CV_TYPE>(form.value);
+const miniform = reactive<CV_TYPE>({
+  user_id: -1,
+  name: "",
+  age: -1,
+  sex: -1,
+  major: '',
+  interest: '',
+  phone: '',
+  email: '',
+  init: 0,
+  qq: '',
+  wc: ''
+});
 
 type Field = {
   label: string;
@@ -94,23 +106,30 @@ const cancel = () => {
 };
 const save = async () => {
   // 保存逻辑
-  console.log(form.value);
   try {
-    await commitUserCV(form.value);
-    ElMessage.success('上传成功');
+    const data = await commitUserCV(form);
+    if (data.code !== 200) {
+      ElMessage.error(data.msg);
+    } else {
+      initCv();
+      ElMessage.success('上传成功');
+    }
   } catch(e) {
+    ElMessage.error(e as string);
     console.log(e);
   }
+  status.value = false;
 };
 
 const formatFieldValue = (field: Field) => {
-  if(!form.value[field.model]) {
+  if (field.model === "sex") {
+    return form[field.model] === -1 ? "未知" : 
+      (form[field.model] === 1 ? "男" : "女");
+  }
+  if(!form[field.model]) {
     return '未填';
   }
-  if (field.model === "sex") {
-    return form.value[field.model] === 1 ? "男" : "女";
-  }
-  return form.value[field.model];
+  return form[field.model];
 };
 
 const myfooter = ref<HTMLElement | null>(null);
@@ -130,19 +149,25 @@ const handleScroll = () => {
     footer?.classList.remove("fixed__myfooter");
   } else {
     footer?.classList.add("fixed__myfooter");
-        footer?.classList.remove('absolute__myfooter');
-    }
+    footer?.classList.remove('absolute__myfooter');
+  }
 }
-onMounted(async () => {
-    try {
-      const data = await getUserCV();
-      form.value = data.data;
-      miniform.value = form.value;
-    } catch(e) {
-      console.log(e);
-    }
-    handleScroll();
-    window.addEventListener("scroll", handleScroll);
+
+const initCv = async () => {
+  try {
+    const data = (await getUserCV()).data;
+    Object.keys(data).forEach((key) => {
+      form[key] = data[key];
+      miniform[key] = data[key];
+    });
+  } catch(e) {
+    console.log(e);
+  }
+}
+onMounted(() => {
+  initCv();
+  handleScroll();
+  window.addEventListener("scroll", handleScroll);
 })
 onBeforeUnmount(() => {
     window.removeEventListener('scroll', handleScroll);

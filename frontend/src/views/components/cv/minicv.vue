@@ -40,7 +40,7 @@
                     <div class="item">
                         <div class="top">
                             <div class="label">性别</div>
-                            <div class="text">{{ form.sex ? form.sex === 1 ? '男' : '女' : '未填' }}</div>
+                            <div class="text">{{ typeof form.sex === 'number' ? form.sex === 1 ? '男' : '女' : '未填' }}</div>
                         </div>
                         <div class="bottom">
                             <div class="label">手机号</div>

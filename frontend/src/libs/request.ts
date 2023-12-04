@@ -12,17 +12,18 @@ export type LOGIN_RES = {
 };
 
 export interface CV_TYPE {
-  "user_id": number | undefined,
-  "name": string | undefined,
-  "age": number | undefined,
-  "sex": number | undefined,
-  "major": string | undefined,
-  "interest": string | undefined,
-  "phone": string | undefined,
-  "email": string | undefined,
-  "init": number | undefined,
-  "qq": string | undefined,
-  "wc": string | undefined,
+  "user_id": number,
+  "name": string,
+  "age": number,
+  "sex": number,
+  "major": string,
+  "interest": string,
+  "phone": string,
+  "email": string,
+  "init": number,
+  "qq": string,
+  "wc": string,
+  [key: string]: any
 }
 
 const UAPPLY_URL = 'http://xdu.uapply.cloud:8888/uapply';
