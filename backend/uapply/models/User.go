@@ -15,6 +15,8 @@ type UserCV struct {
 	Phone    string `json:"phone" binding:"required"`
 	Email    string `json:"email" binding:"required"`
 	Interest string `json:"interest" binding:"required"`
+	Wechat   string `json:"wc"`
+	QQ       string `json:"qq"`
 	IsInit   int    `json:"init"`
 	Extra    string `json:"extra"`
 }
