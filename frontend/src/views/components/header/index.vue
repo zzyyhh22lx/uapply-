@@ -41,7 +41,7 @@ export default defineComponent({
     const navTitles = [
       {
         name: "recommand",
-        label: "为你推荐",
+        label: "我的社团",
         index: 0,
         disabled: true,
       },
@@ -60,6 +60,16 @@ export default defineComponent({
         label: "流程查看",
         index: 3,
       },
+      {
+        name: "view-uapply",
+        label: "社团信息",
+        index: 4,
+      },
+      {
+        name: "view-uapply",
+        label: "切换身份",
+        index: 5,
+      }
     ];
     const activeIndex = ref(1);
     const uapplyCheckBtn = ref<HTMLElement | null>(null);

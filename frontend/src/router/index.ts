@@ -23,7 +23,7 @@ const router = createRouter({
         {
           path: "/home/uapply",
           name: "uapply",
-          component: () => import("@/views/components/admin/admin.vue"),
+          component: () => import("@/views/components/uapply/index.vue"),
         },
         {
           path: "/home/view-cv",
@@ -33,7 +33,7 @@ const router = createRouter({
         {
           path: "/home/view-pc",
           name: "view-pc",
-          component: () => import("@/views/components/admin/admin.vue"),
+          component: () => import("@/views/components/pc/pc.vue"),
         }
       ]
     },

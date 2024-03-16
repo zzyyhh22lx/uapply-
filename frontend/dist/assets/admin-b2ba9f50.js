@@ -1,0 +1,1 @@
+import{_ as e,c as t,e as c}from"./index-505f3388.js";const r=""+new URL("bg-860792fc.svg",import.meta.url).href,s={},o={src:r,alt:"",style:{width:"100%",height:"250px"}};function n(_,a){return t(),c("img",o)}const m=e(s,[["render",n]]);export{m as default};

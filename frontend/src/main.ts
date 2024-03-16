@@ -24,6 +24,11 @@ getAccount().then((res) => {
     if(typeof res !== 'boolean' && (res as LOGIN_RES).data?.account) {
         store.commit('setUsername', (res as LOGIN_RES).data.account);
     }
+}).catch(e => {
+    console.log(e);
+    // 假數據
+    store.commit('setUsername', 'hylin');
+}).finally(() => {
     app.use(router).use(store).component('svg-icon', SvgIcon);
     router.isReady().then(() => app.mount("#app"));
 })
