@@ -78,10 +78,11 @@ import { ref, computed } from 'vue';
 import { useRouter } from 'vue-router';
 import { ElMessage } from 'element-plus';
 import { store } from '@/store/index';
-import { Login, Register } from '@/libs/request';
+import { Login, Register, getAccount } from '@/libs/request';
 import { setLocalStorage } from '@/libs/utils';
-import { TOKEN_NAME } from '@/libs/constant';
+import { TOKEN_NAME, ID_NAME } from '@/libs/constant';
 import { LOGINSTATE, countryCodes } from './constant';
+import type { LOGIN_RES } from '@/libs/request';
 import type { FORM_TYPE } from './constant';
 
 const router = useRouter();
@@ -125,6 +126,8 @@ const loginIn = async () => {
         // 将登录信息存于vuex全局状态管理中
         store.commit('setUsername', res.data.account);
         setLocalStorage(TOKEN_NAME, res.data.token as string);
+        res = await getAccount();
+        setLocalStorage(ID_NAME, String((res as LOGIN_RES).data.id));
         ElMessage.success(`${statement.value}成功`);
         // 路由跳转
         router.push('/home');

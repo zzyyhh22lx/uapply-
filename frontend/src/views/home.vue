@@ -65,6 +65,11 @@ onBeforeUnmount(() => {
     @apply mt-16;
     transition: all .5s;
 }
+@media (max-width: 750px) {
+    .userhome {
+        @apply mt-6;
+    }
+}
 .app-cpright-bar {
     position: relative;
     width: 480px;

@@ -69,7 +69,7 @@
 }
 .center_box {
     width: 100%;
-    max-width: 1280px;
+    // max-width: 1280px;
     margin: 0 auto;
 }
 .resume_wrapper .fixed_box .center_box .resume_btn.primary {
@@ -90,4 +90,31 @@
     line-height: 24px;
     cursor: pointer;
     transition: 0.2s all;
+}
+
+.uapply-box {
+    @apply m-4 px-12;
+    position: relative;
+}
+.detail_content {
+    position: relative;
+    margin-top: 40px;
+    margin-bottom: 40px;
+    box-sizing: border-box;
+    padding: 78px 64px 0 88px;
+    border-radius: 24px;
+    background: #ffffff;
+}
+
+.resume_btn:hover {
+    opacity: 0.8;
+}
+
+.disabled {
+    color: #999999!important;
+    border: 1px solid #cccccc!important;
+    cursor:  not-allowed!important;
+}
+.disabled:hover {
+    opacity: 1!important;
 }

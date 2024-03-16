@@ -1,6 +1,7 @@
 import App from "./App.vue";
 import router from "./router";
 import SvgIcon from '@/components/SvgIcon.vue';
+import TopTitle from '@/components/TopTitle.vue';
 import { createApp } from "vue";
 import { getAccount } from '@/libs/request';
 import type { LOGIN_RES } from '@/libs/request';

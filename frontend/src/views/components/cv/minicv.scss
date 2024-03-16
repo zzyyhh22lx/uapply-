@@ -1,6 +1,6 @@
 @media (max-width: 750px) {
-    .resume_wrapper {
-        display: none;
+    .info_card, .tip_line {
+        display: none!important;
     }
 }
 .resume_wrapper .info_card {
